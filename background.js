@@ -8,7 +8,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ url: message.url }),
+      body: JSON.stringify({
+        threatInfo: {
+          threatTypes: ["SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE", "MALWARE"],
+          platformTypes: ["ANY_PLATFORM"],
+          threatEntryTypes: ["URL"],
+          treatEntries: [{ url: message.url }],
+        },
+      }),
     }
   )
     .then((response) => response.json())
