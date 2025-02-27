@@ -20,7 +20,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
   )
     .then((response) => response.json())
     .then((data) => {
-      if (true) {
+      if (data.matches && data.matches.length > 0) {
         console.log(data);
         chrome.scripting.executeScript({
           target: { tabId: sender.tab.id },
@@ -28,7 +28,6 @@ chrome.runtime.onMessage.addListener((message, sender) => {
           args: ["⚠️ Warning: This website is flagged as dangerous!", "red"],
         });
       } else {
-        // If website is safe, show green "Safe" popup
         chrome.scripting.executeScript({
           target: { tabId: sender.tab.id },
           function: showWarningPopup,
