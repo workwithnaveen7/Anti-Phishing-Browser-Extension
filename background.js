@@ -7,6 +7,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        client: { clientId: "your-extension", clientVersion: "1.0" },
         threatInfo: {
           threatTypes: ["SOCIAL_ENGINEERING", "UNWANTED_SOFTWARE", "MALWARE"],
           platformTypes: ["ANY_PLATFORM"],
@@ -19,10 +20,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     .then((response) => response.json())
     .then((data) => {
       if (data.matches) {
-        chrome.scripting.executeScript({
-          target: { tabId: sender.tab.id },
-          files: ["popup.js"],
-        });
+        chrome.action.setPopup({ popup: "popup.html" }); // Show warning popup
       }
     })
     .catch((error) => console.error("API Error:", error));
